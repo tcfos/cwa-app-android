@@ -1228,6 +1228,11 @@
     <string name="interoperability_onboarding_randomid_download_free">Der tägliche Download der Zufalls-IDs ist für Sie kostenlos – Ihr Datenvolumen wird nicht belastet und es fallen im europäischen Ausland keine Roaming-Gebühren an.</string>
     <string name="interoperability_onboarding_list_title">Derzeit nehmen die folgenden Länder teil:</string>
 
+    <!-- XHED: Title for the interoperability onboarding if country download fails -->
+    <string name="interoperability_onboarding_list_title_failrequest">Teilnehmende Länder</string>
+    <!-- XHED: Subtitle for the interoperability onboarding if country download fails -->
+    <string name="interoperability_onboarding_list_subtitle_failrequest">Die teilnehmenden Länder können Sie jederzeit einsehen in den Details zur Risiko-Ermittlung.</string>
+
     <string name="interoperability_onboarding_delta_subtitle">Die Funktion der Corona-Warn-App wurde erweitert. Es arbeiten nun mehrere Länder in der EU zusammen, um über das gemeinsam betriebene Serversystem länderübergreifende Warnungen zu ermöglichen. So können bei der Risiko-Ermittlung jetzt auch die Kontakte mit Nutzern der offiziellen Corona-Apps anderer teilnehmender Länder berücksichtigt werden.</string>
     <string name="interoperability_onboarding_delta_footerTitle">Hinweis zur Datenverarbeitung</string>
     <string name="interoperability_onboarding_delta_footerDescription"></string>

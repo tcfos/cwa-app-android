@@ -1247,6 +1247,11 @@
     <string name="interoperability_onboarding_randomid_download_free"></string>
     <string name="interoperability_onboarding_list_title"></string>
 
+    <!-- XHED: Title for the interoperability onboarding if country download fails -->
+    <string name="interoperability_onboarding_list_title_failrequest"></string>
+    <!-- XHED: Subtitle for the interoperability onboarding if country download fails -->
+    <string name="interoperability_onboarding_list_subtitle_failrequest"></string>
+
     <string name="interoperability_onboarding_delta_subtitle"></string>
     <string name="interoperability_onboarding_delta_footerTitle"></string>
     <string name="interoperability_onboarding_delta_footerDescription"></string>
