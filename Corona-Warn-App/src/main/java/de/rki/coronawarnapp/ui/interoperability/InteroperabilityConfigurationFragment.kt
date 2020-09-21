@@ -26,7 +26,7 @@ class InteroperabilityConfigurationFragment : Fragment() {
     ): View? {
         _binding = FragmentInteroperabilityConfigurationBinding.inflate(inflater)
         binding.interopViewModel = interoperabilityViewModel
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 

@@ -9,8 +9,12 @@ import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
  * @see InteroperabilityRepository
  */
 class InteroperabilityViewModel : ViewModel() {
-    val allCountries = InteroperabilityRepository.getAllCountries()
+    val allCountries = InteroperabilityRepository.countryList
     val interoperabilityWasShown = InteroperabilityRepository.interoperabilityWasShown()
+
+    init {
+        InteroperabilityRepository.getAllCountries()
+    }
 
     fun saveInteroperabilityUsed() {
         InteroperabilityRepository.saveInteroperabilityUsed()
