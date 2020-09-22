@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.viewmodel
 
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 
@@ -9,12 +10,15 @@ import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
  * @see InteroperabilityRepository
  */
 class InteroperabilityViewModel : ViewModel() {
-    val allCountries = InteroperabilityRepository.countryList
-    val interoperabilityWasShown = InteroperabilityRepository.interoperabilityWasShown()
 
     init {
         InteroperabilityRepository.getAllCountries()
     }
+
+    val allCountries = InteroperabilityRepository.countryList
+    val isCountryListEmpty = Transformations.map(allCountries) { it.isNullOrEmpty() }
+
+    val interoperabilityWasShown = InteroperabilityRepository.interoperabilityWasShown()
 
     fun saveInteroperabilityUsed() {
         InteroperabilityRepository.saveInteroperabilityUsed()

@@ -20,10 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_tiny"
-        android:focusable="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:focusable="true">
 
         <TextView
             android:id="@+id/participating_countries_headline"
@@ -46,6 +43,7 @@
             android:layout_marginTop="@dimen/spacing_normal"
             android:focusable="true"
             android:text="@string/interoperability_onboarding_list_subtitle_failrequest"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/participating_countries_headline" />

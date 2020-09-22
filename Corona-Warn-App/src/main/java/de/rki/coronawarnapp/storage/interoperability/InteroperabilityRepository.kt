@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.storage.interoperability
 
+import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
@@ -32,6 +33,7 @@ object InteroperabilityRepository {
                     ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
                         .supportedCountriesList
                         ?.map { it.toLowerCase(Locale.ROOT) } ?: listOf()
+                Timber.d("Countrylist: ${TextUtils.join(System.lineSeparator(), countryList)}")
                 _countryList.postValue(countryList)
             } catch (e: Exception) {
                 Timber.e(e)

@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
+
+        <import type="android.view.View" />
 
         <variable
             name="interopViewModel"
@@ -153,38 +156,35 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/country_header_description"
-                style="@style/headline6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:accessibilityHeading="true"
-                android:text="@{countryListTitle}"
-                android:visibility="@{FormatterHelper.formatVisibilityText(countryListTitle)}"
+            <include
+                android:id="@+id/country_view_no_fetch"
+                layout="@layout/include_interop_participating_countries_nofetch"
+                android:visibility="@{interopViewModel.isCountryListEmpty() ? View.VISIBLE : View.GONE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/interoperability_header" />
 
-            <de.rki.coronawarnapp.ui.view.CountrySelectionList
-                android:id="@+id/countryList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                app:countryList="@{interopViewModel.allCountries}"
+            <include
+                android:id="@+id/country_view_fetch"
+                layout="@layout/include_interop_participating_countries_fetch"
+                android:visibility="@{interopViewModel.isCountryListEmpty() ? View.GONE : View.VISIBLE}"
+                app:countryListHint="@{countryListHint}"
+                app:countryListTitle="@{countryListTitle}"
+                app:interopViewModel="@{interopViewModel}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/country_header_description" />
+                app:layout_constraintTop_toBottomOf="@+id/interoperability_header" />
 
-            <TextView
-                android:id="@+id/label_country_selection_info"
-                android:layout_width="match_parent"
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/country_barrier"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_normal"
-                android:accessibilityHeading="true"
-                android:text="@{countryListHint}"
-                android:visibility="@{FormatterHelper.formatVisibilityText(countryListHint)}"
-                app:layout_constraintTop_toBottomOf="@+id/countryList" />
+                app:barrierAllowsGoneWidgets="false"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="country_view_no_fetch,country_view_fetch"
+                tools:layout_editor_absoluteX="411dp"
+                tools:layout_editor_absoluteY="266dp" />
+
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 style="@style/cardTracing"
@@ -195,8 +195,7 @@
                 android:visibility="@{FormatterHelper.formatVisibility(showFooter)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/label_country_selection_info">
-                app:layout_constraintTop_toBottomOf="@+id/countryList"/>
+                app:layout_constraintTop_toBottomOf="@+id/country_barrier">
 
                 <TextView
                     android:id="@+id/country_footer_title"
