@@ -156,9 +156,13 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+
             <include
                 android:id="@+id/country_view_no_fetch"
                 layout="@layout/include_interop_participating_countries_nofetch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
                 android:visibility="@{interopViewModel.isCountryListEmpty() ? View.VISIBLE : View.GONE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -167,6 +171,9 @@
             <include
                 android:id="@+id/country_view_fetch"
                 layout="@layout/include_interop_participating_countries_fetch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
                 android:visibility="@{interopViewModel.isCountryListEmpty() ? View.GONE : View.VISIBLE}"
                 app:countryListHint="@{countryListHint}"
                 app:countryListTitle="@{countryListTitle}"
@@ -174,16 +181,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/interoperability_header" />
-
-            <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/country_barrier"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:barrierAllowsGoneWidgets="false"
-                app:barrierDirection="bottom"
-                app:constraint_referenced_ids="country_view_no_fetch,country_view_fetch"
-                tools:layout_editor_absoluteX="411dp"
-                tools:layout_editor_absoluteY="266dp" />
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -195,7 +192,7 @@
                 android:visibility="@{FormatterHelper.formatVisibility(showFooter)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/country_barrier">
+                app:layout_constraintTop_toBottomOf="@+id/country_view_fetch">
 
                 <TextView
                     android:id="@+id/country_footer_title"
