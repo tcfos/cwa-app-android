@@ -319,7 +319,10 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
             configuration = exposureConfiguration,
             token = token
         )
-        Timber.tag(TAG).d("Diagnosis Keys provided (success=%s, token=%s)", success, token)
+        Timber.tag(TAG).d("Diagnosis Keys provided (success=$success, token=$token, key files count=${exportFiles.size})")
+        exportFiles.forEach {
+            Timber.d("File - ${it.path} - exists? ${it.exists()}")
+        }
         return@executeState success
     }
 
