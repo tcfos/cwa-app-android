@@ -66,21 +66,10 @@ android {
         def prodEnvJson = environmentExtractor(file("../prod_environments.json"))
         buildConfigField "String", "ENVIRONMENT_JSONDATA", prodEnvJson
 
-        def getHash = { ->
-            println("getHASH called")
-            def stdout = new ByteArrayOutputStream()
-            exec {
-                commandLine 'git', 'rev-parse', '--short', 'HEAD'
-                standardOutput = stdout
-            }
-            def result = stdout.toString().trim()
-            return result
-        }
-
         if (project.hasProperty("commit_hash")) {
             buildConfigField "String", "GIT_COMMIT_SHORT_HASH", "\"$commit_hash\""
         } else {
-            buildConfigField "String", "GIT_COMMIT_SHORT_HASH", "\"${getHash()}\""
+            buildConfigField "String", "GIT_COMMIT_SHORT_HASH", "\"no commit hash\""
         }
 
         def devEnvironmentFile = file("../test_environments.json")
