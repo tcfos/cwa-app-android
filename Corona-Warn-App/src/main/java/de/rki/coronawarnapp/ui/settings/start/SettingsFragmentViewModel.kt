@@ -3,10 +3,14 @@ package de.rki.coronawarnapp.ui.settings.start
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
+import de.rki.coronawarnapp.service.submission.SubmissionService
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SettingsRepository
+import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.ui.settings.notifications.NotificationSettings
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.combine
@@ -42,6 +46,20 @@ class SettingsFragmentViewModel @AssistedInject constructor(
         settingsRepository.isBackgroundPriorityEnabledFlow
             .map { SettingsBackgroundState((it)) }
             .asLiveData(dispatcherProvider.Default)
+
+    val showTestRemovalDialog = SingleLiveEvent<Unit>()
+
+    fun removeTestSelected() {
+        showTestRemovalDialog.postValue(Unit)
+    }
+
+    fun removeTestFromDeviceConfirmed() {
+        SubmissionService.deleteTestGUID()
+        SubmissionService.deleteRegistrationToken()
+        LocalData.isAllowedToSubmitDiagnosisKeys(false)
+        LocalData.initialTestResultReceivedTimestamp(0L)
+        SubmissionRepository.refreshDeviceUIState()
+    }
 
     @AssistedInject.Factory
     interface Factory : SimpleCWAViewModelFactory<SettingsFragmentViewModel>

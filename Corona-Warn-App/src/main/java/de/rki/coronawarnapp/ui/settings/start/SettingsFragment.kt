@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.settings.start
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
@@ -11,6 +12,7 @@ import de.rki.coronawarnapp.databinding.FragmentSettingsBinding
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
+import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -43,6 +45,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), AutoInject {
         vm.backgroundPrioritystate.observe2(this) {
             binding.backgroundState = it
         }
+        vm.showTestRemovalDialog.observe2(this) {
+            showRemoveTestDialog()
+        }
         setButtonOnClickListener()
     }
 
@@ -58,6 +63,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), AutoInject {
         val notificationRow = binding.settingsNotifications.settingsRow
         val backgroundPriorityRow = binding.settingsBackgroundPriority.settingsRow
         val resetRow = binding.settingsReset
+        val removeTestRow = binding.settingsRemoveTest
         val goBack = binding.settingsHeader.headerButtonBack.buttonIcon
         resetRow.setOnClickListener {
             findNavController().doNavigate(
@@ -79,8 +85,28 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), AutoInject {
                 SettingsFragmentDirections.actionSettingsFragmentToSettingsBackgroundPriorityFragment()
             )
         }
+        removeTestRow.setOnClickListener {
+            vm.removeTestSelected()
+        }
         goBack.setOnClickListener {
             (activity as MainActivity).goBack()
+        }
+    }
+
+    private fun showRemoveTestDialog() {
+        val removeTestDialog = DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.submission_test_result_dialog_remove_test_title,
+            R.string.submission_test_result_dialog_remove_test_message,
+            R.string.submission_test_result_dialog_remove_test_button_positive,
+            R.string.submission_test_result_dialog_remove_test_button_negative,
+            positiveButtonFunction = {
+                vm.removeTestFromDeviceConfirmed()
+            }
+        )
+        DialogHelper.showDialog(removeTestDialog).apply {
+            getButton(AlertDialog.BUTTON_POSITIVE)
+                .setTextColor(context.getColor(R.color.colorTextSemanticRed))
         }
     }
 }
