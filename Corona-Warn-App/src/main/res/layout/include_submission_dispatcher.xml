@@ -16,8 +16,7 @@
                 android:id="@+id/submission_dispatcher_illustration"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/button_icon_margin"
-                android:src="@drawable/ic_dispatcher_illustration"
+                android:src="@drawable/ic_illustration_test"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
