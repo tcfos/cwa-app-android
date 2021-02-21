@@ -593,8 +593,8 @@ jobs:
       - run:
           name: Create directory to store test results
           command: |
-            mkdir firebase-screenshots/en_US
-            mkdir firebase-screenshots/de_DE
+            mkdir -p firebase-screenshots/en_US
+            mkdir -p firebase-screenshots/de_DE
           when: always
       - run:
           name: Install gsutil dependency and copy test results data
