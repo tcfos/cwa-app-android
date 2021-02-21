@@ -598,7 +598,8 @@ jobs:
           name: Install gsutil dependency and copy test results data
           command: |
             sudo pip install -U crcmod
-            sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/flame* firebase-screenshots
+            sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/flame*/artifacts firebase-screenshots
+            sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/flame*/*.xml firebase-screenshots
           when: always
       - store_test_results:
           path: ./firebase-screenshots
@@ -626,6 +627,10 @@ workflows:
           requires:
             - unit_tests_device_release
       - instrumentation_tests_device:
+          requires:
+            - ktlint_device_release_check
+            - detekt
+      - firebase_screenshots:
           requires:
             - ktlint_device_release_check
             - detekt
