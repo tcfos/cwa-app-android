@@ -577,8 +577,8 @@ jobs:
             echo "Using bucketdir $BUCKETDIR"
             sudo gcloud firebase test android run \
               --type instrumentation \
-              --app Corona-Warn-App/build/outputs/apk/deviceForTesters/debug/*.apk \
-              --test Corona-Warn-App/build/outputs/apk/androidTest/deviceForTesters/debug/*.apk \
+              --app */build/outputs/apk/deviceForTesters/debug/*.apk \
+              --test */build/outputs/apk/androidTest/deviceForTesters/debug/*.apk \
               --results-dir ${BUCKETDIR} \
               --results-bucket ${GOOGLE_PROJECT_ID}-circleci-android \
               --environment-variables clearPackageData=true \
@@ -600,10 +600,10 @@ jobs:
           name: Install gsutil dependency and copy test results data
           command: |
             sudo pip install -U crcmod
-            sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/flame*en_US*/artifacts/*.png firebase-screenshots/en_US
-            sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/flame*en_US*/*.xml firebase-screenshots/en_US
-            sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/flame*de_DE*/artifacts/*.png firebase-screenshots/de_DE
-            sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/flame*de_DE*/*.xml firebase-screenshots/de_DE
+            sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}*/${BUCKETDIR}/*en_US*/artifacts/*.png firebase-screenshots/en_US
+            sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}*/${BUCKETDIR}/*en_US*/*.xml firebase-screenshots/en_US
+            sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}*/${BUCKETDIR}/*de_DE*/artifacts/*.png firebase-screenshots/de_DE
+            sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}*/${BUCKETDIR}/*de_DE*/*.xml firebase-screenshots/de_DE
           when: always
       - store_test_results:
           path: ./firebase-screenshots
