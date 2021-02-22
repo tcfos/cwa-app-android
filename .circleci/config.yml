@@ -65,22 +65,6 @@ commands:
               -Dorg.gradle.configureondemand=true
               -Dkotlin.compiler.execution.strategy=in-process
               -Dkotlin.incremental=false
-  pull-firebase-results:
-    description: "Pull Firebase TL results"
-    parameters:
-      bucket:
-        type: string
-      locale:
-        type: string
-      dir:
-        type: string
-    steps:
-      - run:
-          name: Pulling Firebase TL results for << parameters.locale >>
-          command: >
-            sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${<< parameters.bucket >>}/*${<< parameters.locale >>}*/artifacts/*.png << parameters.dir >>
-            sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${<< parameters.bucket >>}/*${<< parameters.locale >>}*/*.xml << parameters.dir >>
-          when: always
 
   run-gradle-cmd-test-splitting:
     description: "Running gradle command with environment options and test splitting"
@@ -613,20 +597,14 @@ jobs:
             mkdir -p firebase-screenshots/de_DE
           when: always
       - run:
-          name: Install gsutil dependency
+          name: Install gsutil dependency and copy test results data
           command: |
             sudo pip install -U crcmod
+            sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/flame*en_US*/artifacts/*.png firebase-screenshots/en_US
+            sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/flame*en_US*/*.xml firebase-screenshots/en_US
+            sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/flame*de_DE*/artifacts/*.png firebase-screenshots/de_DE
+            sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/flame*de_DE*/*.xml firebase-screenshots/de_DE
           when: always
-      - pull-firebase-results:
-           bucket: BUCKETDIR
-           locale: en_US
-           dir: firebase-screenshots/en_US
-
-      - pull-firebase-results:
-          bucket: BUCKETDIR
-          locale: de_DE
-          dir: firebase-screenshots/de_DE
-
       - store_test_results:
           path: ./firebase-screenshots
       - compress-path:
