@@ -600,19 +600,19 @@ jobs:
           name: Install gsutil dependency and copy test results data
           command: |
             sudo pip install -U crcmod
-            sudo gsutil -m cp gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/*en_US*/artifacts/*.png firebase-screenshots/en_US
-            sudo gsutil -m cp gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/*en_US*/*.xml firebase-screenshots/en_US
-            sudo gsutil -m cp gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/*de_DE*/artifacts/*.png firebase-screenshots/de_DE
-            sudo gsutil -m cp gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/*de_DE*/*.xml firebase-screenshots/de_DE
+            sudo gsutil -m cp gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/*en*/*/*.* firebase-screenshots/en_US
+            sudo gsutil -m cp gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/*en*/*.xml firebase-screenshots/en_US
+            sudo gsutil -m cp gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/*de*/*/*.* firebase-screenshots/de_DE
+            sudo gsutil -m cp gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/*de*/*.xml firebase-screenshots/de_DE
           when: always
       - store_test_results:
           path: ./firebase-screenshots
       - compress-path:
           input: ./firebase-screenshots
-          output: /tmp/CWA-Android-Screenshots-$GitSha.zip
+          output: /tmp/CWA-Android-Screenshots-${GitSha}.zip
       - store_artifacts:
-          path: /tmp/CWA-Android-Screenshots-$GitSha.zip
-          destination: zips/CWA-Android-Screenshots-$GitSha.zip
+          path: /tmp/CWA-Android-Screenshots-${GitSha}.zip
+          destination: zips/CWA-Android-Screenshots-${GitSha}.zip
 
 #######################
 # Workflow section
